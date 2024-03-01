@@ -1,13 +1,10 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { AuthModule } from './modules/auth/auth.module';
-import { UserModule } from './modules/users/users.module';
-import { env } from 'process';
+import { NestFactory } from '@nestjs/core'
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
+import { AppModule } from './app.module'
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { cors: true });
-  app.setGlobalPrefix('api');
+  const app = await NestFactory.create(AppModule, { cors: true })
+  app.setGlobalPrefix('api')
 
   const config = new DocumentBuilder()
     .setTitle('Node-api')
@@ -17,12 +14,11 @@ async function bootstrap() {
     .addServer('http://localhost:3000/', 'Local environment')
     .addServer('https://production.yourapi.com/', 'Production')
     // .addTag('NestJS')
-    .build();
+    .build()
 
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api-docs', app, document);
+  const document = SwaggerModule.createDocument(app, config)
+  SwaggerModule.setup('api-docs', app, document)
 
-
-  await app.listen(process.env.PORT || 3000);
+  await app.listen(process.env.PORT || 3000)
 }
-bootstrap();
+bootstrap()
